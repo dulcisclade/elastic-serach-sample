@@ -17,7 +17,10 @@ public static class IndexConfiguration
                             .Replacement("cool"))
                         .PatternReplace("extra-signs-replacement", patternReplace => patternReplace
                             .Pattern("[^a-zA-Z0-9 ]")
-                            .Replacement("")))
+                            .Replacement(""))
+                        .PatternReplace("extra-space-replacement", patternReplace => patternReplace
+                            .Pattern("\\s+")
+                            .Replacement(" ")))
                     .TokenFilters(filtersDescriptor => filtersDescriptor
                         .Synonym("synonyms-tokens", synonymsDescriptor => synonymsDescriptor
                             .Expand()
@@ -26,7 +29,7 @@ public static class IndexConfiguration
                         .Custom("custom-analyzer", customAnalyzerDescriptor => customAnalyzerDescriptor
                             .Tokenizer("keyword")
                             .Filters("lowercase", "trim")
-                            .CharFilters("synonyms-replacement", "extra-signs-replacement"))
+                            .CharFilters("synonyms-replacement", "extra-signs-replacement", "extra-space-replacement"))
                         .Custom("synonym-token-analyzer", customAnalyzerDescriptor => customAnalyzerDescriptor
                             .Tokenizer("standard")
                             .Filters("synonyms-tokens"))))));
